@@ -5,6 +5,7 @@ import 'package:tasky/core/theme/app_text_style.dart';
 class AppTheme {
   static ThemeData light() {
     return ThemeData(
+      brightness: Brightness.light,
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.bgColorLight,
       primaryColor: AppColors.primaryColor,
@@ -25,11 +26,24 @@ class AppTheme {
           side: BorderSide(color: AppColors.borderLight),
         ),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.primaryColor),
+          foregroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            AppTextStyle.medium(fontSize: 15, color: AppColors.bgColorLight),
+          ),
+        ),
+      ),
     );
   }
 
   static ThemeData dark() {
     return ThemeData(
+      brightness: Brightness.dark,
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.bgColorDark,
       primaryColor: AppColors.primaryColor,
@@ -48,6 +62,19 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: AppColors.borderDark),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(AppColors.primaryColor),
+          foregroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          ),
+          fixedSize: WidgetStatePropertyAll(Size.fromHeight(50)),
+          textStyle: WidgetStatePropertyAll(
+            AppTextStyle.medium(fontSize: 15, color: AppColors.bgColorLight),
+          ),
         ),
       ),
     );
