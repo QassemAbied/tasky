@@ -3,9 +3,10 @@ import 'package:tasky/core/constants/app_constants.dart';
 import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
-import 'package:tasky/feature/home/view/home_screen.dart';
-import '../../../../core/common_widgets/text_field.dart';
-import '../../../../core/helper/spacing.dart';
+import '../../../../../../core/common_widgets/text_field.dart';
+import '../../../../../../core/helper/spacing.dart';
+import '../../../home/view/home_screen.dart';
+
 
 class TextFiledAndBotton extends StatefulWidget {
   const TextFiledAndBotton({super.key});
@@ -50,7 +51,7 @@ class _TextFiledAndBottonState extends State<TextFiledAndBotton> {
                   await SharedPrefHelper.setData(
                       key: AppConstants.nameKey, value: controller.text
                   );
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                  Navigator.push( context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
                 }else{
                   snackBar();
                 }

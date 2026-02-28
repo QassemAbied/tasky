@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tasky/core/helper/spacing.dart';
-import 'package:tasky/core/theme/theme_controller/theme_cubit.dart';
-import 'package:tasky/feature/on_boarding/view/widgets/custom_text.dart';
-import 'package:tasky/feature/on_boarding/view/widgets/logo.dart';
-import 'package:tasky/feature/on_boarding/view/widgets/text_filed_and_botton.dart';
-import '../../../core/uitls/enum.dart';
+import 'package:tasky/feature/presentation/pages/on_boarding/view/widgets/custom_text.dart';
+import 'package:tasky/feature/presentation/pages/on_boarding/view/widgets/logo.dart';
+import 'package:tasky/feature/presentation/pages/on_boarding/view/widgets/text_filed_and_botton.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -20,28 +17,6 @@ class OnBoardingScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      context.read<ThemeCubit>().selectedThemeMode(
-                        ThemeModeEnum.dark,
-                      );
-
-                    },
-                    child: Text('dark'),
-                  ),
-
-                  TextButton(
-                    onPressed: () {
-                      context.read<ThemeCubit>().selectedThemeMode(
-                        ThemeModeEnum.light,
-                      );
-                    },
-                    child: Text('light'),
-                  ),
-                ],
-              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
