@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
 import 'package:tasky/feature/presentation/controller/add_task_cubit/add_new_task_state.dart';
+import 'package:tasky/feature/presentation/controller/home_cubit/home_cubit.dart';
 
+import '../../../botton_nav_view.dart';
 import '../../../home/view/home_screen.dart';
 
 class ButtonBlocListener extends StatelessWidget {
@@ -23,9 +25,10 @@ class ButtonBlocListener extends StatelessWidget {
         }
         else if(state is AddTaskSuccess) {
           Navigator.pop(context);
+
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen(),
+            MaterialPageRoute(builder: (context) => BottonNavView(),
             ),
                 (route) => false,
 
