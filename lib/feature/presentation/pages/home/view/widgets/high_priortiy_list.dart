@@ -15,77 +15,83 @@ class HighPriorityList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        final cubit = context.read<HomeCubit>();
-        final tasks = cubit.highPriorityTasks;
-        if (state.status == HomeStatus.loaded) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'High Priority Tasks',
-                    style: AppTextStyle.regular(
-                      fontSize: 16,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: tasks.length,
-                          itemBuilder: (context, index) {
-                            return ItemOfLists(
-                              taskDescription: tasks[index].taskDescription,
-                              taskName: tasks[index].taskName,
-                              checked1: tasks[index].isDone,
-                              isTrailing: false,
-                              onChanged: (bool value) {
-                                context.read<HomeCubit>().toggleMyTask(tasks[index], value);
-                              },
-                            );
-                          },
-                        ),
+        final tasks = state.highPriorityTasks;
+
+        switch(state.noHighPriority){
+
+          case NoHighPriority.initial:
+            return SizedBox();
+          case NoHighPriority.loading:
+            return Center(child: CircularProgressIndicator());
+          case NoHighPriority.loaded:
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'High Priority Tasks',
+                      style: AppTextStyle.regular(
+                        fontSize: 16,
+                        color: AppColors.primaryColor,
                       ),
-                      Expanded(
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: context.textBorder),
-                            shape: BoxShape.circle,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: tasks.length,
+                            itemBuilder: (context, index) {
+                              return ItemOfLists(
+                                taskDescription: tasks[index].taskDescription,
+                                taskName: tasks[index].taskName,
+                                checked1: tasks[index].isDone,
+                                isTrailing: false,
+                                onChanged: (bool value) {
+                                  context.read<HomeCubit>().toggleMyTask(
+                                      tasks[index], value);
+                                },
+                              );
+                            },
                           ),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: SvgPicture.asset(
-                              'assets/svgs/arrow_icon.svg',
-                              colorFilter: ColorFilter.mode(
-                                context.textSecondary,
-                                BlendMode.srcIn,
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: context.textBorder),
+                              shape: BoxShape.circle,
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: SvgPicture.asset(
+                                'assets/svgs/arrow_icon.svg',
+                                colorFilter: ColorFilter.mode(
+                                  context.textSecondary,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 25,
+                                height: 25,
                               ),
-                              width: 25,
-                              height: 25,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        } else if (state.status == HomeStatus.initial) {
-          return SizedBox();
+            );
+          case NoHighPriority.error:
+       return  Center(child: Text(state.error?? "Something went wrong"),);
         }
-        return SizedBox();
       },
     );
   }

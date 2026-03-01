@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,12 +12,7 @@ import 'package:tasky/feature/presentation/pages/home/view/widgets/floating_butt
 import 'package:tasky/feature/presentation/pages/home/view/widgets/high_priortiy_list.dart';
 import 'package:tasky/feature/presentation/pages/home/view/widgets/my_task_list.dart';
 import '../../../../../core/theme/theme_controller/theme_cubit.dart';
-import '../../../../../core/uitls/di.dart';
 import '../../../../../core/uitls/enum.dart';
-import '../../../controller/home_cubit/home_cubit.dart';
-import '../../../controller/home_cubit/home_state.dart';
-import '../../add_task/view/add_task_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,29 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
     nameUser = SharedPrefHelper.getString(key: AppConstants.nameKey);
   }
 
-  // void loadTask() {
-  //   final getTask = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
-  //   if (getTask != null) {
-  //     final taskDecode = jsonDecode(getTask) as List<dynamic>;
-  //     final tasks = taskDecode.map((e) => TaskModel.fromJson(e)).toList();
-  //     setState(() {
-  //       task = tasks;
-  //     });
-  //
-  //     // TaskModel.fromJson(taskDecode);
-  //     //print(TaskModel.fromJson(taskDecode));
-  //   }
-  // }
-
-  //final List<bool> isChecked = List.generate(7, (_) => false);
-  // List<bool> isChecked1 = List.generate(10, (_) => false);
   @override
   Widget build(BuildContext context) {
     var currentMode = Theme.of(context).brightness == Brightness.dark;
 
-    return BlocProvider(
-  create: (context) => sl<HomeCubit>()..getTasks()..highPriorityTasks..noHighPriorityTasks,
-  child: SafeArea(
+    return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -184,9 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
             MyTaskList(),
           ],
         ),
-        floatingActionButton:FloatingButtonWidgets(),
+        floatingActionButton: FloatingButtonWidgets(),
       ),
-    ),
-);
+    );
   }
 }
