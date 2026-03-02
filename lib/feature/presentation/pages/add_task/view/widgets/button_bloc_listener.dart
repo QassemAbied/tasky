@@ -4,9 +4,6 @@ import 'package:tasky/feature/presentation/controller/add_task_cubit/add_new_tas
 import 'package:tasky/feature/presentation/controller/add_task_cubit/add_new_task_state.dart';
 import 'package:tasky/feature/presentation/controller/home_cubit/home_cubit.dart';
 
-import '../../../botton_nav_view.dart';
-import '../../../home/view/home_screen.dart';
-
 class ButtonBlocListener extends StatelessWidget {
   const ButtonBlocListener({super.key, required this.child});
   final Widget child;
@@ -16,26 +13,20 @@ class ButtonBlocListener extends StatelessWidget {
     return BlocListener<AddNewTaskCubit, AddNewTaskState>(
       listener: (BuildContext context, AddNewTaskState state) {
         if (state is AddTaskLoading) {
-           showDialog(
+          showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) {
               return Center(child: CircularProgressIndicator());
             },
           );
-        }
-        else if(state is AddTaskSuccess) {
+        } else if (state is AddTaskSuccess) {
+          Navigator.of(context, rootNavigator: true).pop();
+          context.read<HomeCubit>().loadData();
           Navigator.pop(context);
-
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => BottonNavView(),
-            ),
-                (route) => false,
-
-          );
         }
       },
-        child: child,
+      child: child,
     );
   }
 }
