@@ -31,4 +31,29 @@ class AddTaskReposImpl implements TaskRepos{
         highPriority: e.highPriority, isDone: e.isDone)).toList();
     return taskLocalDataSource.updateTask(models);
   }
+
+  @override
+  String? getUserName() {
+   return taskLocalDataSource.getUserName();
+  }
+
+  @override
+  Future addUserName(String userName) async{
+    return await taskLocalDataSource.addUserName(userName);
+  }
+
+  @override
+  Future<dynamic> addQuoteUser(String quote)async {
+    return await taskLocalDataSource.addQuoteUser(quote);
+  }
+
+  @override
+  String? getQuoteUser() {
+    return taskLocalDataSource.getQuoteUser();
+  }
+
+  @override
+  Future<dynamic> logOut()async {
+    return await taskLocalDataSource.logOut();
+  }
 }
