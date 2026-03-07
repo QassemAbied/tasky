@@ -20,7 +20,7 @@ class AppTextFiled extends StatelessWidget {
   final String? helperText;
   const AppTextFiled({
     super.key,
-    required this.hintText,
+     this.hintText,
     this.prefixIcon,
     this.textInputType,
     this.controller,
