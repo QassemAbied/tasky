@@ -32,12 +32,12 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       state.copyWith(
         tasks: updatedTasks,
-        highPriorityTasks: updatedTasks.where((e) => e.highPriority).toList(),
-        noHighPriorityTasks: updatedTasks
+        highPriorityTasks: updatedTasks.reversed.where((e) => e.highPriority).toList(),
+        noHighPriorityTasks: updatedTasks.reversed
             .where((e) => !e.highPriority)
             .toList(),
-        todoTask: updatedTasks.where((e) => !e.isDone).toList(),
-        completedTask: updatedTasks.where((e) => e.isDone).toList(),
+        todoTask: updatedTasks.reversed.where((e) => !e.isDone).toList(),
+        completedTask: updatedTasks.reversed.where((e) => e.isDone).toList(),
       ),
     );
     await _updateTaskUseCase.call(updatedTasks);
@@ -61,10 +61,10 @@ class HomeCubit extends Cubit<HomeState> {
           todoStatus: TodoStatus.loaded,
           completedStatus: CompletedStatus.loaded,
           tasks: tasks,
-          highPriorityTasks: tasks.where((e) => e.highPriority).toList(),
-          noHighPriorityTasks: tasks.where((e) => !e.highPriority).toList(),
-          todoTask: tasks.where((e) => !e.isDone).toList(),
-          completedTask: tasks.where((e) => e.isDone).toList(),
+          highPriorityTasks: tasks.reversed.where((e) => e.highPriority).toList(),
+          noHighPriorityTasks: tasks.reversed.where((e) => !e.highPriority).toList(),
+          todoTask: tasks.reversed.where((e) => !e.isDone).toList(),
+          completedTask: tasks.reversed.where((e) => e.isDone).toList(),
         ),
       );
     } catch (e) {
