@@ -11,6 +11,7 @@ class AppTheme {
       primaryColor: AppColors.primaryColor,
 
       appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: AppColors.primaryTextLight),
         backgroundColor: AppColors.bgColorLight,
         elevation: 0.0,
         titleTextStyle: AppTextStyle.regular(
@@ -38,6 +39,21 @@ class AppTheme {
           ),
         ),
       ),
+      switchTheme: SwitchThemeData(
+        trackColor: WidgetStateProperty.resolveWith((state){
+          if(state.contains(WidgetState.selected)){
+            return AppColors.primaryColor;
+          }
+          return AppColors.bgColorLight;
+        }),
+
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.bgColorDark,
+        selectionColor: AppColors.bgColorDark,
+        selectionHandleColor: AppColors.bgColorDark,
+      ),
+      splashFactory: NoSplash.splashFactory,
     );
   }
 
@@ -49,6 +65,7 @@ class AppTheme {
       primaryColor: AppColors.primaryColor,
 
       appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: AppColors.primaryTextDark),
         backgroundColor: AppColors.bgColorDark,
         elevation: 0.0,
         titleTextStyle: AppTextStyle.regular(
@@ -57,6 +74,7 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
+
         color: AppColors.surfaceDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -77,6 +95,30 @@ class AppTheme {
           ),
         ),
       ),
+        switchTheme: SwitchThemeData(
+          trackColor: WidgetStateProperty.resolveWith((state){
+            if(state.contains(WidgetState.selected)){
+              return AppColors.primaryColor;
+            }
+            return AppColors.borderDark;
+          }
+
+          ),
+          thumbColor: WidgetStateProperty.resolveWith((state){
+            if(state.contains(WidgetState.selected)){
+              return AppColors.bgColorLight;
+            }
+            return AppColors.surfaceDark;
+          }
+
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColors.bgColorLight,
+          selectionColor: AppColors.bgColorLight,
+          selectionHandleColor: AppColors.bgColorLight,
+        ),
+      splashFactory: NoSplash.splashFactory,
     );
   }
 }
