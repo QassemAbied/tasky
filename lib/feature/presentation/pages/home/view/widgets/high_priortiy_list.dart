@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tasky/core/routing/routers.dart';
+import 'package:tasky/feature/presentation/pages/home/view/high_priority_Screen.dart';
 import '../../../../../../core/helper/extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_text_style.dart';
@@ -28,7 +30,6 @@ class HighPriorityList extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -42,11 +43,11 @@ class HighPriorityList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
-                          flex: 4,
+                          //flex: 4,
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: tasks.length,
+                            itemCount: tasks.length>4 ?4:tasks.length,
                             itemBuilder: (context, index) {
                               return ItemOfLists(
                                 taskDescription: tasks[index].taskDescription,
@@ -61,10 +62,13 @@ class HighPriorityList extends StatelessWidget {
                             },
                           ),
                         ),
-                        Expanded(
+                        GestureDetector(
+                          onTap: (){
+                            context.pushNamed(Routers.highPriorityScreen );
+                          },
                           child: Container(
-                            width: 60,
-                            height: 60,
+                            width: 40,
+                            height: 40,
                             decoration: BoxDecoration(
                               border: Border.all(color: context.textBorder),
                               shape: BoxShape.circle,
@@ -77,8 +81,8 @@ class HighPriorityList extends StatelessWidget {
                                   context.textSecondary,
                                   BlendMode.srcIn,
                                 ),
-                                width: 25,
-                                height: 25,
+                                width: 20,
+                                height: 20,
                               ),
                             ),
                           ),
