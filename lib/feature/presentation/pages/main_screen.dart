@@ -7,7 +7,7 @@ import 'package:tasky/feature/presentation/controller/main_cubit/main_cubit.dart
 import 'package:tasky/feature/presentation/controller/main_cubit/main_state.dart';
 import 'package:tasky/feature/presentation/pages/complet_task/view/completed_screen.dart';
 import 'package:tasky/feature/presentation/pages/home/view/home_screen.dart';
-import 'package:tasky/feature/presentation/pages/profile_screen.dart';
+import 'package:tasky/feature/presentation/pages/profile/view/profile_screen.dart';
 import 'package:tasky/feature/presentation/pages/todo/view/todo_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -15,10 +15,10 @@ class MainScreen extends StatelessWidget {
 
 
   static int currentIndex=0;
- static const  List<Widget> screens = [
-    HomeScreen(),
-    TodoScreen(),
-    CompletedScreen(),
+ static final  List<Widget> screens = [
+    const HomeScreen(),
+    const TodoScreen(),
+    const CompletedScreen(),
     ProfileScreen(),
   ];
 

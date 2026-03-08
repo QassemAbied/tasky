@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/constants/app_constants.dart';
 import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
+import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
+import 'package:tasky/feature/presentation/pages/main_screen.dart';
 import '../../../../../../core/common_widgets/text_field.dart';
 import '../../../../../../core/helper/spacing.dart';
-import '../../../home/view/home_screen.dart';
 
 
 class TextFiledAndBotton extends StatefulWidget {
@@ -34,6 +36,8 @@ class _TextFiledAndBottonState extends State<TextFiledAndBotton> {
           AppTextFiled(
             controller: controller,
             hintText: 'e.g. Sarah Khalid',
+            minLines: 1,
+            maxLines: 2,
             validator: (String? value) {
               if (value==null||value.trim().isEmpty) {
                 return 'Please Enter Your Name';
@@ -48,10 +52,12 @@ class _TextFiledAndBottonState extends State<TextFiledAndBotton> {
             child: ElevatedButton(
               onPressed: () async{
                 if (formKey.currentState?.validate()??false) {
+                  context.read<UserDetailsCubit>().addUserDetails(controller.text,'One task at a time.One step\n closer.');
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return MainScreen();
+                  }));
                   await SharedPrefHelper.setData(
-                      key: AppConstants.nameKey, value: controller.text
-                  );
-                  Navigator.push( context, MaterialPageRoute(builder: (BuildContext context)=>HomeScreen()));
+                      key: AppConstants.onBoardingKey, value: true);
                 }else{
                   snackBar();
                 }
