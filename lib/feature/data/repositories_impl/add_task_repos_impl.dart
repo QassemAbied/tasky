@@ -11,6 +11,7 @@ class AddTaskReposImpl implements TaskRepos{
   @override
   Future<TaskEntities> addTask(TaskEntities task) async{
     final model = TaskModel(
+      id: task.id,
         taskName: task.taskName,
         taskDescription: task.taskDescription,
         highPriority: task.highPriority
@@ -24,13 +25,7 @@ class AddTaskReposImpl implements TaskRepos{
    return await taskLocalDataSource.getTask();
   }
 
-  @override
-  Future<void> updateTask(List<TaskEntities> task) {
-    final models = task.map((e) => TaskModel( taskName: e.taskName,
-        taskDescription: e.taskDescription,
-        highPriority: e.highPriority, isDone: e.isDone)).toList();
-    return taskLocalDataSource.updateTask(models);
-  }
+
 
   @override
   String? getUserName() {

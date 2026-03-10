@@ -33,15 +33,6 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   }
 
   @override
-  Future<void> updateTask(List<TaskModel> task) async {
-    final data = task.map((e) => e.toJson()).toList();
-    await SharedPrefHelper.setData(
-      key: AppConstants.addTaskKey,
-      value: jsonEncode(data),
-    );
-  }
-
-  @override
   String? getUserName() {
     return SharedPrefHelper.getString(key: AppConstants.userNameKey);
   }
@@ -68,7 +59,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   }
 
   @override
-  Future<dynamic> logOut()async {
+  Future<dynamic> logOut() async {
     await SharedPrefHelper.removeData(AppConstants.addTaskKey);
     await SharedPrefHelper.removeData(AppConstants.onBoardingKey);
     await SharedPrefHelper.removeData(AppConstants.quoteKey);
@@ -76,35 +67,32 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   }
 
   @override
-  Future<dynamic> deleteTask(String id)async {
-    final getTasks = SharedPrefHelper.getString(
-      key: AppConstants.addTaskKey,
-    );
+  Future<dynamic> deleteTask(String id) async {
+    final getTasks = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
 
     if (getTasks == null) return;
 
     List tasks = jsonDecode(getTasks);
 
-    tasks.removeWhere((task) => task['id'] == id);
-
+    tasks.removeWhere((task) => task['id'].toString() == id.toString());
     await SharedPrefHelper.setData(
       key: AppConstants.addTaskKey,
       value: jsonEncode(tasks),
     );
-    }
+  }
 
   @override
-  Future<void> editTask(TaskModel task) async{
-    final getTasks = SharedPrefHelper.getString(
-      key: AppConstants.addTaskKey,);
+  Future<void> editTask(TaskModel task) async {
+    final getTasks = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
 
-    List<dynamic> tasks=[];
+    List<dynamic> tasks = [];
 
     if (getTasks != null) {
-      tasks = jsonDecode(getTasks) ;
+      tasks = jsonDecode(getTasks);
     }
-    final index = tasks.indexWhere((e) => e['id'] == task.id);
-
+    final index = tasks.indexWhere(
+      (e) => e['id'].toString() == task.id.toString(),
+    );
     if (index != -1) {
       tasks[index] = task.toJson();
     }
@@ -114,5 +102,4 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       value: jsonEncode(tasks),
     );
   }
-  }
-
+}

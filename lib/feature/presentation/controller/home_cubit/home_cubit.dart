@@ -3,102 +3,56 @@ import 'package:tasky/feature/domain/usecases/delete_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/edit_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_task_usecase.dart';
 import '../../../domain/entities/task_entities.dart';
-import '../../../domain/usecases/update_task_usecase.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final GetTaskUseCase getTasksUseCase;
-  final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
   final EditTaskUseCase _editTaskUseCase;
-  HomeCubit(this.getTasksUseCase,
-      this._updateTaskUseCase,this._deleteTaskUseCase,
-      this._editTaskUseCase)
-    : super(const HomeState()) {
+  HomeCubit(
+    this.getTasksUseCase,
+    this._deleteTaskUseCase,
+    this._editTaskUseCase,
+  ) : super(const HomeState()) {
     loadData();
   }
+  Future<void> editTask(TaskEntities task) async {
+    try {
 
-  Future<void> editTas(TaskEntities task)async{
+      await _editTaskUseCase.call(task);
 
-    await _editTaskUseCase.call(task);
-    final updatedTasks = state.tasks.map((e) {
-      if (e.id == task.id) {
-        return task;
-      }
-      return e;
-    }).toList();
-
-    emit(state.copyWith(
-
-      tasks: updatedTasks,
-      highPriorityTasks:
-      updatedTasks.where((e) => e.highPriority).toList(),
-      noHighPriorityTasks:
-      updatedTasks.where((e) => !e.highPriority).toList(),
-      todoTask:
-      updatedTasks.where((e) => !e.isDone).toList(),
-      completedTask:
-      updatedTasks.where((e) => e.isDone).toList(),
-    ),);
+      await loadData();
+    } catch (e) {
+      emit(state.copyWith(status: HomeStatus.error, error: e.toString()));
+    }
   }
 
-  Future deleteTask(String id)async{
-    emit(state.copyWith(deleteStatus: DeleteStatus.loading));
+  Future<void> deleteTask(String id) async {
+    try {
 
+      await _deleteTaskUseCase.call(id);
 
-    try{
-       await _deleteTaskUseCase.call(id);
-       final deleteTasks =
-       state.tasks.where((task) => task.id != id).toList();
-      emit(state.copyWith(
-          deleteStatus: DeleteStatus.loaded,
+      await loadData();
 
-        tasks: deleteTasks,
-        highPriorityTasks:
-        deleteTasks.where((e) => e.highPriority).toList(),
-        noHighPriorityTasks:
-        deleteTasks.where((e) => !e.highPriority).toList(),
-        todoTask:
-        deleteTasks.where((e) => !e.isDone).toList(),
-        completedTask:
-        deleteTasks.where((e) => e.isDone).toList(),
-
-      ));
-    }catch(error){
-      emit(state.copyWith(deleteStatus: DeleteStatus.error,error: error.toString()));
+      emit(state.copyWith(deleteStatus: DeleteStatus.loaded));
+    } catch (e) {
+      emit(
+        state.copyWith(deleteStatus: DeleteStatus.error, error: e.toString()),
+      );
     }
-
   }
 
   Future<void> toggleMyTask(TaskEntities task, bool value) async {
-    final updatedTasks = List<TaskEntities>.from(state.tasks);
-    final realIndex = updatedTasks.indexWhere(
-      (e) => e.taskName == task.taskName,
-    );
-
-    if (realIndex == -1) return;
-
-    final oldTask = updatedTasks[realIndex];
-
-    updatedTasks[realIndex] = TaskEntities(
-      taskName: oldTask.taskName,
-      taskDescription: oldTask.taskDescription,
-      highPriority: oldTask.highPriority,
+    final updatedTask = TaskEntities(
+      id: task.id,
+      taskName: task.taskName,
+      taskDescription: task.taskDescription,
+      highPriority: task.highPriority,
       isDone: value,
     );
 
-    emit(
-      state.copyWith(
-        tasks: updatedTasks,
-        highPriorityTasks: updatedTasks.reversed.where((e) => e.highPriority).toList(),
-        noHighPriorityTasks: updatedTasks.reversed
-            .where((e) => !e.highPriority)
-            .toList(),
-        todoTask: updatedTasks.reversed.where((e) => !e.isDone).toList(),
-        completedTask: updatedTasks.reversed.where((e) => e.isDone).toList(),
-      ),
-    );
-    await _updateTaskUseCase.call(updatedTasks);
+    await _editTaskUseCase.call(updatedTask);
+    await loadData();
   }
 
   Future<void> loadData() async {
@@ -111,6 +65,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
     try {
       final tasks = await getTasksUseCase();
+
       emit(
         state.copyWith(
           highPriority: HighPriority.loaded,
@@ -119,8 +74,12 @@ class HomeCubit extends Cubit<HomeState> {
           todoStatus: TodoStatus.loaded,
           completedStatus: CompletedStatus.loaded,
           tasks: tasks,
-          highPriorityTasks: tasks.reversed.where((e) => e.highPriority).toList(),
-          noHighPriorityTasks: tasks.reversed.where((e) => !e.highPriority).toList(),
+          highPriorityTasks: tasks.reversed
+              .where((e) => e.highPriority)
+              .toList(),
+          noHighPriorityTasks: tasks.reversed
+              .where((e) => !e.highPriority)
+              .toList(),
           todoTask: tasks.reversed.where((e) => !e.isDone).toList(),
           completedTask: tasks.reversed.where((e) => e.isDone).toList(),
         ),
@@ -138,24 +97,4 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
-
-  // HomeState _buildTaskState(List<TaskEntities> tasks) {
-  //   return state.copyWith(
-  //     tasks: tasks,
-  //
-  //     highPriorityTasks:
-  //     tasks.reversed.where((e) => e.highPriority).toList(),
-  //
-  //     noHighPriorityTasks:
-  //     tasks.reversed.where((e) => !e.highPriority).toList(),
-  //
-  //     todoTask:
-  //     tasks.reversed.where((e) => !e.isDone).toList(),
-  //
-  //     completedTask:
-  //     tasks.reversed.where((e) => e.isDone).toList(),
-  //   );
-  // }
 }
-
-
