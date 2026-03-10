@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/uitls/enum.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
+import '../../feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
+import '../../feature/presentation/pages/add_task/view/widgets/button_widget.dart';
+import '../../feature/presentation/pages/add_task/view/widgets/high_priority_widget.dart';
+import '../../feature/presentation/pages/add_task/view/widgets/text_field_widget.dart';
 import '../helper/extension.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
@@ -60,8 +64,7 @@ class ItemOfLists extends StatelessWidget {
              await _showDialog( context);
 
             case TaskItemActionsEnum.edit:
-              // TODO: Handle this case.
-              throw UnimplementedError();
+             await _showModelSheet(context);
           }
         },
           itemBuilder: (context)=>
@@ -78,13 +81,13 @@ class ItemOfLists extends StatelessWidget {
 
     );
   }
-  Future<dynamic> _showDialog(BuildContext context){
+  Future<void> _showDialog(BuildContext context){
     return showDialog(context: context, builder: (context){
       final isDark = Theme.of(context).brightness == Brightness.dark;
       return AlertDialog(
         backgroundColor: isDark?AppColors.bgColorDark:AppColors.bgColorLight,
         title: Text('Delete Task'),
-        content: Text('Can Sure Delete Your Task'),
+        content: Text('Are you sure you want to delete this task?'),
         actions: [
           TextButton(
             onPressed: (){
@@ -101,6 +104,88 @@ class ItemOfLists extends StatelessWidget {
       );
     });
   }
+  Future<void> _showModelSheet(BuildContext context) async {
+    final TextEditingController nameTaskController =
+    TextEditingController(text: taskEntities.taskName);
+
+    final TextEditingController descriptionTaskController =
+    TextEditingController(text: taskEntities.taskDescription);
+    final cubit = AddNewTaskCubit.get(context);
+
+    cubit.isSelected = taskEntities.highPriority;
+    final GlobalKey<FormState> key = GlobalKey<FormState>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.bgColorDark,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: key,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Task Name',
+                    style: AppTextStyle.regular(
+                      fontSize: 16,
+                      color: context.textPrimary,
+                    ),
+                  ),
+
+                  TextFieldWidget(
+                    nameTaskController: nameTaskController,
+                    descriptionTaskController: descriptionTaskController,
+                  ),
+
+                  HighPriorityWidget(),
+
+                  const SizedBox(height: 20),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        if (key.currentState!.validate()) {
+                          context.read<HomeCubit>().editTas(TaskEntities(
+                            id: taskEntities.id,
+                              isDone: taskEntities.isDone,
+                              taskName: nameTaskController.text,
+                              taskDescription: descriptionTaskController.text,
+                              highPriority: cubit.isSelected,
+                          ));
+                        }
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.edit),
+                      label: const Text('Edit'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
 
 }
+
+
+
+
 
