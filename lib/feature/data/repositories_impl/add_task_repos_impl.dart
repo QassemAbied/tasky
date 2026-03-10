@@ -61,4 +61,17 @@ class AddTaskReposImpl implements TaskRepos{
   Future<dynamic> deleteTask(String id)async {
    return await taskLocalDataSource.deleteTask(id);
   }
+
+  @override
+  Future<void> editTask(TaskEntities task)async {
+    final model = TaskModel(
+      isDone: task.isDone,
+        id: task.id,
+        taskName: task.taskName,
+        taskDescription: task.taskDescription,
+        highPriority: task.highPriority
+
+    );
+    return await taskLocalDataSource.editTask(model);
+  }
 }

@@ -17,6 +17,7 @@ class HomeState {
   final HighPriority highPriority;
   final NoHighPriority noHighPriority;
   final TodoStatus todoStatus;
+  final TaskEntities? editTask;
   final CompletedStatus completedStatus;
   final List<TaskEntities> tasks;
   final List<TaskEntities> highPriorityTasks;
@@ -32,6 +33,7 @@ class HomeState {
     this.noHighPriority = NoHighPriority.initial,
     this.todoStatus = TodoStatus.initial,
     this.completedStatus = CompletedStatus.initial,
+    this.editTask,
     this.todoTask = const [],
     this.tasks = const [],
     this.noHighPriorityTasks = const [],
@@ -46,6 +48,7 @@ class HomeState {
     HighPriority? highPriority,
     NoHighPriority? noHighPriority,
     TodoStatus? todoStatus,
+    TaskEntities? editTask,
     CompletedStatus? completedStatus,
     List<TaskEntities>? tasks,
     List<TaskEntities>? highPriorityTasks,
@@ -67,6 +70,7 @@ class HomeState {
       completedTask: completedTask ?? this.completedTask,
       error: error ?? this.error,
       deleteStatus: deleteStatus??this.deleteStatus,
+      editTask: editTask??this.editTask,
     );
   }
 }

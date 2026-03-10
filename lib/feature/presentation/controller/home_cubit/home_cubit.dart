@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/feature/domain/usecases/delete_task_usecase.dart';
+import 'package:tasky/feature/domain/usecases/edit_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_task_usecase.dart';
 import '../../../domain/entities/task_entities.dart';
 import '../../../domain/usecases/update_task_usecase.dart';
@@ -9,10 +10,36 @@ class HomeCubit extends Cubit<HomeState> {
   final GetTaskUseCase getTasksUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+  final EditTaskUseCase _editTaskUseCase;
   HomeCubit(this.getTasksUseCase,
-      this._updateTaskUseCase,this._deleteTaskUseCase)
+      this._updateTaskUseCase,this._deleteTaskUseCase,
+      this._editTaskUseCase)
     : super(const HomeState()) {
     loadData();
+  }
+
+  Future<void> editTas(TaskEntities task)async{
+
+    await _editTaskUseCase.call(task);
+    final updatedTasks = state.tasks.map((e) {
+      if (e.id == task.id) {
+        return task;
+      }
+      return e;
+    }).toList();
+
+    emit(state.copyWith(
+
+      tasks: updatedTasks,
+      highPriorityTasks:
+      updatedTasks.where((e) => e.highPriority).toList(),
+      noHighPriorityTasks:
+      updatedTasks.where((e) => !e.highPriority).toList(),
+      todoTask:
+      updatedTasks.where((e) => !e.isDone).toList(),
+      completedTask:
+      updatedTasks.where((e) => e.isDone).toList(),
+    ),);
   }
 
   Future deleteTask(String id)async{

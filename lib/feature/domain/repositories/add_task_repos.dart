@@ -11,4 +11,5 @@ abstract class TaskRepos {
   String? getQuoteUser();
   Future logOut();
   Future deleteTask(String id);
+  Future<void> editTask(TaskEntities task);
 }
