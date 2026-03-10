@@ -2,6 +2,7 @@ import '../../domain/entities/task_entities.dart';
 
 class TaskModel extends TaskEntities {
   TaskModel({
+    super.id,
     required super.taskName,
     required super.taskDescription,
     required super.highPriority,
@@ -10,6 +11,7 @@ class TaskModel extends TaskEntities {
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(
+      id: json['id'],
       taskName: json['taskName'],
       taskDescription: json['taskDescription'],
       highPriority: json['highPriority'],
@@ -18,6 +20,7 @@ class TaskModel extends TaskEntities {
   }
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "taskName": taskName,
     "taskDescription": taskDescription,
     "highPriority": highPriority,
