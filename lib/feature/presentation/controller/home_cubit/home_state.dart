@@ -9,9 +9,11 @@ enum NoHighPriority { initial, loading, loaded, error }
 enum TodoStatus { initial, loading, loaded, error }
 
 enum CompletedStatus { initial, loading, loaded, error }
+enum DeleteStatus { initial, loading, loaded, error }
 
 class HomeState {
   final HomeStatus status;
+  final DeleteStatus deleteStatus;
   final HighPriority highPriority;
   final NoHighPriority noHighPriority;
   final TodoStatus todoStatus;
@@ -24,6 +26,7 @@ class HomeState {
   final String? error;
 
   const HomeState({
+    this.deleteStatus=DeleteStatus.initial,
     this.status = HomeStatus.initial,
     this.highPriority = HighPriority.initial,
     this.noHighPriority = NoHighPriority.initial,
@@ -38,6 +41,7 @@ class HomeState {
   });
 
   HomeState copyWith({
+     DeleteStatus? deleteStatus,
     HomeStatus? status,
     HighPriority? highPriority,
     NoHighPriority? noHighPriority,
@@ -62,6 +66,7 @@ class HomeState {
       todoTask: todoTask ?? this.todoTask,
       completedTask: completedTask ?? this.completedTask,
       error: error ?? this.error,
+      deleteStatus: deleteStatus??this.deleteStatus,
     );
   }
 }

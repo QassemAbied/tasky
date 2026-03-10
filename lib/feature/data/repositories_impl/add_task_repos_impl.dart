@@ -56,4 +56,9 @@ class AddTaskReposImpl implements TaskRepos{
   Future<dynamic> logOut()async {
     return await taskLocalDataSource.logOut();
   }
+
+  @override
+  Future<dynamic> deleteTask(String id)async {
+   return await taskLocalDataSource.deleteTask(id);
+  }
 }

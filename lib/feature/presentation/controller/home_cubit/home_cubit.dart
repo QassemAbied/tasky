@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/feature/domain/usecases/delete_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_task_usecase.dart';
 import '../../../domain/entities/task_entities.dart';
 import '../../../domain/usecases/update_task_usecase.dart';
@@ -7,9 +8,39 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final GetTaskUseCase getTasksUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
-  HomeCubit(this.getTasksUseCase, this._updateTaskUseCase)
+  final DeleteTaskUseCase _deleteTaskUseCase;
+  HomeCubit(this.getTasksUseCase,
+      this._updateTaskUseCase,this._deleteTaskUseCase)
     : super(const HomeState()) {
     loadData();
+  }
+
+  Future deleteTask(String id)async{
+    emit(state.copyWith(deleteStatus: DeleteStatus.loading));
+
+
+    try{
+       await _deleteTaskUseCase.call(id);
+       final deleteTasks =
+       state.tasks.where((task) => task.id != id).toList();
+      emit(state.copyWith(
+          deleteStatus: DeleteStatus.loaded,
+
+        tasks: deleteTasks,
+        highPriorityTasks:
+        deleteTasks.where((e) => e.highPriority).toList(),
+        noHighPriorityTasks:
+        deleteTasks.where((e) => !e.highPriority).toList(),
+        todoTask:
+        deleteTasks.where((e) => !e.isDone).toList(),
+        completedTask:
+        deleteTasks.where((e) => e.isDone).toList(),
+
+      ));
+    }catch(error){
+      emit(state.copyWith(deleteStatus: DeleteStatus.error,error: error.toString()));
+    }
+
   }
 
   Future<void> toggleMyTask(TaskEntities task, bool value) async {
@@ -80,4 +111,24 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
+
+  // HomeState _buildTaskState(List<TaskEntities> tasks) {
+  //   return state.copyWith(
+  //     tasks: tasks,
+  //
+  //     highPriorityTasks:
+  //     tasks.reversed.where((e) => e.highPriority).toList(),
+  //
+  //     noHighPriorityTasks:
+  //     tasks.reversed.where((e) => !e.highPriority).toList(),
+  //
+  //     todoTask:
+  //     tasks.reversed.where((e) => !e.isDone).toList(),
+  //
+  //     completedTask:
+  //     tasks.reversed.where((e) => e.isDone).toList(),
+  //   );
+  // }
 }
+
+

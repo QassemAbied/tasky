@@ -74,4 +74,23 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     await SharedPrefHelper.removeData(AppConstants.quoteKey);
     await SharedPrefHelper.removeData(AppConstants.userNameKey);
   }
-}
+
+  @override
+  Future<dynamic> deleteTask(String id)async {
+    final getTasks = SharedPrefHelper.getString(
+      key: AppConstants.addTaskKey,
+    );
+
+    if (getTasks == null) return;
+
+    List tasks = jsonDecode(getTasks);
+
+    tasks.removeWhere((task) => task['id'] == id);
+
+    await SharedPrefHelper.setData(
+      key: AppConstants.addTaskKey,
+      value: jsonEncode(tasks),
+    );
+    }
+  }
+

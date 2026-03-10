@@ -10,4 +10,5 @@ abstract class TaskRepos {
   Future addQuoteUser(String quote);
   String? getQuoteUser();
   Future logOut();
+  Future deleteTask(String id);
 }
