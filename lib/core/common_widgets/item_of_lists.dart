@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/uitls/enum.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
-
 import '../helper/extension.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
@@ -15,9 +14,7 @@ class ItemOfLists extends StatelessWidget {
     this.isTrailing = true, required this.onChanged,  required this.taskEntities,
   });
   final TaskEntities taskEntities;
-  //final String taskName;
- // final String taskDescription;
- // final bool checked1;
+
   final bool isTrailing;
   final Function(bool) onChanged;
 
@@ -55,12 +52,13 @@ class ItemOfLists extends StatelessWidget {
       ): null,
 
       trailing:isTrailing?PopupMenuButton<TaskItemActionsEnum>(
-        onSelected: (value){
+        onSelected: (value)async{
           switch(value){
             case TaskItemActionsEnum.mark:
               onChanged(!taskEntities.isDone);
             case TaskItemActionsEnum.delete:
-             context.read<HomeCubit>().deleteTask(taskEntities.id);
+             await _showDialog( context);
+
             case TaskItemActionsEnum.edit:
               // TODO: Handle this case.
               throw UnimplementedError();
@@ -80,4 +78,29 @@ class ItemOfLists extends StatelessWidget {
 
     );
   }
+  Future<dynamic> _showDialog(BuildContext context){
+    return showDialog(context: context, builder: (context){
+      final isDark = Theme.of(context).brightness == Brightness.dark;
+      return AlertDialog(
+        backgroundColor: isDark?AppColors.bgColorDark:AppColors.bgColorLight,
+        title: Text('Delete Task'),
+        content: Text('Can Sure Delete Your Task'),
+        actions: [
+          TextButton(
+            onPressed: (){
+            Navigator.pop(context);
+          }, child: Text('Cancel',style: AppTextStyle.semiBold(fontSize: 16, color: Colors.red)),),
+          TextButton(
+
+            onPressed: (){
+              context.read<HomeCubit>().deleteTask(taskEntities.id);
+              Navigator.pop(context);
+            }, child: Text('Delete',style: AppTextStyle.semiBold(fontSize: 16, color: context.textPrimary),),),
+
+        ],
+      );
+    });
+  }
+
 }
+
