@@ -63,6 +63,9 @@ class AppTheme {
           AppTextStyle.medium(fontSize: 16, color: AppColors.primaryTextLight),
         ),
       ),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: AppColors.bgColorLight,
+        ),
     );
   }
 
@@ -132,6 +135,9 @@ class AppTheme {
         labelTextStyle: WidgetStatePropertyAll<TextStyle>(
           AppTextStyle.medium(fontSize: 16, color: AppColors.primaryTextDark),
         ),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: AppColors.bgColorDark,
       ),
     );
   }
