@@ -3,6 +3,7 @@ import 'package:tasky/feature/domain/repositories/add_task_repos.dart';
 import 'package:tasky/feature/domain/usecases/add_quote_usecase.dart';
 import 'package:tasky/feature/domain/usecases/add_user_name_use_case.dart';
 import 'package:tasky/feature/domain/usecases/delete_task_usecase.dart';
+import 'package:tasky/feature/domain/usecases/edit_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_quote_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_user_name_usecase.dart';
@@ -29,6 +30,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateTaskUseCase(sl()));
   sl.registerLazySingleton(() => DeleteTaskUseCase(sl()));
   sl.registerLazySingleton(() => GetUserNameUseCase(sl()));
+  sl.registerLazySingleton(() => EditTaskUseCase(sl()));
   sl.registerLazySingleton(() => AddUserNameUseCase(sl()));
   sl.registerLazySingleton(() => GetQuoteUseCase(sl()));
   sl.registerLazySingleton(() => AddQuoteUseCase(sl()));
@@ -37,6 +39,6 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => GetTaskUseCase(sl()));
 
-  sl.registerLazySingleton(() => HomeCubit(sl(), sl(),sl()));
+  sl.registerLazySingleton(() => HomeCubit(sl(), sl(),sl(),sl(),),);
   sl.registerLazySingleton(() => UserDetailsCubit(sl(), sl(),sl(), sl(),sl(),));
 }
