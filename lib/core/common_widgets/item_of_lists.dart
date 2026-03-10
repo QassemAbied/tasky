@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/uitls/enum.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
 import '../../feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
-import '../../feature/presentation/pages/add_task/view/widgets/button_widget.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/high_priority_widget.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/text_field_widget.dart';
 import '../helper/extension.dart';
@@ -118,7 +117,6 @@ class ItemOfLists extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.bgColorDark,
       builder: (context) {
         return Padding(
           padding: EdgeInsets.only(
@@ -156,7 +154,7 @@ class ItemOfLists extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         if (key.currentState!.validate()) {
-                          context.read<HomeCubit>().editTas(TaskEntities(
+                          context.read<HomeCubit>().editTask(TaskEntities(
                             id: taskEntities.id,
                               isDone: taskEntities.isDone,
                               taskName: nameTaskController.text,
