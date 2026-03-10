@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
 import '../../feature/presentation/controller/home_cubit/home_cubit.dart';
-import '../../feature/presentation/pages/home/view/widgets/item_of_lists.dart';
+import 'item_of_lists.dart';
 import '../helper/extension.dart';
 import '../helper/spacing.dart';
 import '../theme/app_text_style.dart';
@@ -22,15 +22,14 @@ class MyTaskListWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Card(
                   child: ItemOfLists(
-                    taskName: tasks[index].taskName,
-                    checked1: tasks[index].isDone,
+
                     onChanged: (bool value) {
                       context.read<HomeCubit>().toggleMyTask(
                         tasks[index],
                         value,
                       );
                     },
-                    taskDescription: tasks[index].taskDescription,
+                   taskEntities: tasks[index],
                   ),
                 );
               },

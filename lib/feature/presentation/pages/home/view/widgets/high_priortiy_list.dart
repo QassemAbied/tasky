@@ -8,7 +8,7 @@ import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_text_style.dart';
 import '../../../../controller/home_cubit/home_cubit.dart';
 import '../../../../controller/home_cubit/home_state.dart';
-import 'item_of_lists.dart';
+import '../../../../../../core/common_widgets/item_of_lists.dart';
 
 class HighPriorityList extends StatelessWidget {
   const HighPriorityList({super.key});
@@ -50,14 +50,12 @@ class HighPriorityList extends StatelessWidget {
                             itemCount: tasks.length>4 ?4:tasks.length,
                             itemBuilder: (context, index) {
                               return ItemOfLists(
-                                taskDescription: tasks[index].taskDescription,
-                                taskName: tasks[index].taskName,
-                                checked1: tasks[index].isDone,
+
                                 isTrailing: false,
                                 onChanged: (bool value) {
                                   context.read<HomeCubit>().toggleMyTask(
                                       tasks[index], value);
-                                },
+                                }, taskEntities: tasks[index],
                               );
                             },
                           ),
