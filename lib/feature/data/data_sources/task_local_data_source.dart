@@ -14,4 +14,5 @@ abstract class TaskLocalDataSource {
   String? getQuoteUser();
   Future logOut();
   Future deleteTask(String id);
+  Future<void> editTask(TaskModel task);
 }

@@ -92,5 +92,27 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       value: jsonEncode(tasks),
     );
     }
+
+  @override
+  Future<void> editTask(TaskModel task) async{
+    final getTasks = SharedPrefHelper.getString(
+      key: AppConstants.addTaskKey,);
+
+    List<dynamic> tasks=[];
+
+    if (getTasks != null) {
+      tasks = jsonDecode(getTasks) ;
+    }
+    final index = tasks.indexWhere((e) => e['id'] == task.id);
+
+    if (index != -1) {
+      tasks[index] = task.toJson();
+    }
+
+    await SharedPrefHelper.setData(
+      key: AppConstants.addTaskKey,
+      value: jsonEncode(tasks),
+    );
+  }
   }
 
