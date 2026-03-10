@@ -40,13 +40,12 @@ class AppTheme {
         ),
       ),
       switchTheme: SwitchThemeData(
-        trackColor: WidgetStateProperty.resolveWith((state){
-          if(state.contains(WidgetState.selected)){
+        trackColor: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
             return AppColors.primaryColor;
           }
           return AppColors.bgColorLight;
         }),
-
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: AppColors.bgColorDark,
@@ -54,6 +53,16 @@ class AppTheme {
         selectionHandleColor: AppColors.bgColorDark,
       ),
       splashFactory: NoSplash.splashFactory,
+      popupMenuTheme: PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(16.0),
+          side: BorderSide(color: AppColors.borderLight, width: 0.2),
+        ),
+        color: AppColors.bgColorLight,
+        labelTextStyle: WidgetStatePropertyAll<TextStyle>(
+          AppTextStyle.medium(fontSize: 16, color: AppColors.primaryTextLight),
+        ),
+      ),
     );
   }
 
@@ -74,7 +83,6 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-
         color: AppColors.surfaceDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -95,30 +103,36 @@ class AppTheme {
           ),
         ),
       ),
-        switchTheme: SwitchThemeData(
-          trackColor: WidgetStateProperty.resolveWith((state){
-            if(state.contains(WidgetState.selected)){
-              return AppColors.primaryColor;
-            }
-            return AppColors.borderDark;
+      switchTheme: SwitchThemeData(
+        trackColor: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
+            return AppColors.primaryColor;
           }
-
-          ),
-          thumbColor: WidgetStateProperty.resolveWith((state){
-            if(state.contains(WidgetState.selected)){
-              return AppColors.bgColorLight;
-            }
-            return AppColors.surfaceDark;
+          return AppColors.borderDark;
+        }),
+        thumbColor: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
+            return AppColors.bgColorLight;
           }
-
-          ),
-        ),
-        textSelectionTheme: TextSelectionThemeData(
-          cursorColor: AppColors.bgColorLight,
-          selectionColor: AppColors.bgColorLight,
-          selectionHandleColor: AppColors.bgColorLight,
-        ),
+          return AppColors.surfaceDark;
+        }),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.bgColorLight,
+        selectionColor: AppColors.bgColorLight,
+        selectionHandleColor: AppColors.bgColorLight,
+      ),
       splashFactory: NoSplash.splashFactory,
+      popupMenuTheme: PopupMenuThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(16.0),
+          side: BorderSide(color: AppColors.borderDark, width: 0.2),
+        ),
+        color: AppColors.bgColorDark,
+        labelTextStyle: WidgetStatePropertyAll<TextStyle>(
+          AppTextStyle.medium(fontSize: 16, color: AppColors.primaryTextDark),
+        ),
+      ),
     );
   }
 }
