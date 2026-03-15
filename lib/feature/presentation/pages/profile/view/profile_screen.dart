@@ -42,11 +42,11 @@ class ProfileScreen extends StatelessWidget {
                               CircleAvatar(
                                 radius: 55,
                                 backgroundImage:
-                                    (images == null || images!.isEmpty)
+                                    ( images.isEmpty)
                                     ? AssetImage(
                                         'assets/images/image_avater.png',
                                       )
-                                    : FileImage(File(images!)),
+                                    : FileImage(File(images)),
                                 backgroundColor: Colors.transparent,
                               ),
                               Positioned(

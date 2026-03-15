@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,15 +19,30 @@ class CustomAppBarWidget extends StatelessWidget {
     var currentMode = Theme.of(context).brightness == Brightness.dark;
 
     return BlocBuilder<UserDetailsCubit, UserDetailsState>(
+      
       builder: (context, state) {
+        final images= state.image;
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
-              image: AssetImage('assets/images/image_avater.png'),
-              width: 50,
-              height: 50,
+            CircleAvatar(
+              radius: 30,
+              backgroundImage:
+              ( images.isEmpty)
+                  ? AssetImage(
+                'assets/images/image_avater.png',
+              )
+                  : FileImage(File(images)),
+              backgroundColor: Colors.transparent,
             ),
+            // CircleAvatar(
+            //   radius: 30,
+            //   child: Image(
+            //     image: (image ==null|| image.isEmpty)?AssetImage('assets/images/image_avater.png'):FileImage(File(image)),
+            //     // width: 50,
+            //     // height: 50,
+            //   ),
+            // ),
             horizontalSpace(16),
             Expanded(
               //flex:5,
