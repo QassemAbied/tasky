@@ -14,4 +14,6 @@ abstract class TaskLocalDataSource {
   Future logOut();
   Future deleteTask(String id);
   Future<void> editTask(TaskModel task);
+  Future uploadImage(String image);
+  Future getImage();
 }

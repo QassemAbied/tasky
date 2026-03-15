@@ -11,4 +11,6 @@ abstract class TaskRepos {
   Future logOut();
   Future deleteTask(String id);
   Future<void> editTask(TaskEntities task);
+  Future uploadImage(String image);
+  Future getImage();
 }

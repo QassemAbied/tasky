@@ -69,4 +69,14 @@ class AddTaskReposImpl implements TaskRepos{
     );
     return await taskLocalDataSource.editTask(model);
   }
+
+  @override
+  Future<dynamic> getImage() async{
+   return await taskLocalDataSource.getImage();
+  }
+
+  @override
+  Future<dynamic> uploadImage(String image)async {
+    return await taskLocalDataSource.uploadImage(image);
+  }
 }

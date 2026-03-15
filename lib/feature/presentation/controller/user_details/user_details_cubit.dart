@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/feature/domain/usecases/add_quote_usecase.dart';
+import 'package:tasky/feature/domain/usecases/get_image_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_quote_usecase.dart';
 import 'package:tasky/feature/domain/usecases/logout_usecase.dart';
+import 'package:tasky/feature/domain/usecases/upload_image_usecase.dart';
 import 'package:tasky/feature/presentation/controller/user_details/user_details_state.dart';
 
 import '../../../domain/usecases/add_user_name_use_case.dart';
@@ -13,12 +15,15 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
   final GetUserNameUseCase getUserNameUseCase;
   final GetQuoteUseCase getQuoteUseCase;
   final AddQuoteUseCase addQuoteUseCase;
+  final GetImageUseCase getImageUseCase;
+  final UploadImageUseCase uploadImageUseCase;
   UserDetailsCubit(
     this.addUserNameUseCase,
     this.getUserNameUseCase,
     this.addQuoteUseCase,
     this.getQuoteUseCase,
     this.logoutUseCase,
+      this.getImageUseCase, this.uploadImageUseCase,
   ) : super(UserDetailsState());
 
   Future<void> addUserDetails(String userName, String quote) async {
@@ -39,7 +44,16 @@ class UserDetailsCubit extends Cubit<UserDetailsState> {
       emit(state.copyWith(userStaus: UserStaus.error, error: e.toString()));
     }
   }
+  Future getImage()async{
+   final response= await getImageUseCase();
+   emit(state.copyWith(image: response));
 
+  }
+  Future uploadImage(String image)async{
+    await uploadImageUseCase.call(image);
+    emit(state.copyWith(image: image));
+
+  }
   void getUserDetails() {
     try {
       final name = getUserNameUseCase();

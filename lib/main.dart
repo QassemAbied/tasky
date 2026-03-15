@@ -20,7 +20,7 @@ void main() async {
         BlocProvider(create: (context) => MainCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(
-          create: (context) => sl<UserDetailsCubit>()..getUserDetails(),
+          create: (context) => sl<UserDetailsCubit>()..getUserDetails()..getImage(),
         ),
         BlocProvider(
           create: (context) => sl<AddNewTaskCubit>(),

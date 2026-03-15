@@ -10,6 +10,7 @@ class UserDetailsState {
   final LogoutStaus logoutStaus;
   final String userName;
   final String quote;
+  final String image;
   final String error;
 
   UserDetailsState({
@@ -17,6 +18,7 @@ class UserDetailsState {
     this.logoutStaus=LogoutStaus.initial,
     this.userName='',
     this.quote='',
+    this.image='',
     this.error='',
   });
   UserDetailsState copyWith({
@@ -24,6 +26,7 @@ class UserDetailsState {
     LogoutStaus? logoutStaus,
     String? userName,
     String? quote,
+    String? image,
     String? error
 }){
     return UserDetailsState(
@@ -31,6 +34,7 @@ class UserDetailsState {
       logoutStaus: logoutStaus??this.logoutStaus,
       userName: userName??this.userName,
       error: error??this.error,
+      image: image??this.image,
       quote: quote??this.quote,
     );
   }

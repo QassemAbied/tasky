@@ -102,4 +102,14 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       value: jsonEncode(tasks),
     );
   }
+
+  @override
+  Future<dynamic> getImage() async {
+  return  SharedPrefHelper.getString(key: AppConstants.imageUser);
+  }
+
+  @override
+  Future<dynamic> uploadImage(String image) async{
+    return await SharedPrefHelper.setData(key: AppConstants.imageUser, value: image);
+  }
 }

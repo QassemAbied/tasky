@@ -1,25 +1,24 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasky/core/constants/app_constants.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tasky/core/helper/extension.dart';
-import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/core/helper/spacing.dart';
 import 'package:tasky/core/routing/routers.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
 import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
 import 'package:tasky/feature/presentation/controller/user_details/user_details_state.dart';
-import 'package:tasky/feature/presentation/pages/profile/view/user_details.dart';
 import 'package:tasky/feature/presentation/pages/profile/view/widget/build_list_title.dart';
 import 'package:tasky/feature/presentation/pages/profile/view/widget/bulid_change_theme_list_title.dart';
 
 class ProfileScreen extends StatelessWidget {
-   ProfileScreen({super.key});
+ const ProfileScreen({super.key});
 
-  late String userName;
-  late String quote;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<UserDetailsCubit>().state;
     return Scaffold(
       appBar: AppBar(title: Text('My Profile')),
       body: Padding(
@@ -31,42 +30,48 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 55,
-                        backgroundImage: AssetImage(
-                          'assets/images/image_avater.png',
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: context.textSurface,
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              color: context.textPrimary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  verticalSpace(10),
                   BlocBuilder<UserDetailsCubit, UserDetailsState>(
                     builder: (context, state) {
-                      userName=state.userName;
-                      quote= state.quote;
+                    final  userName = state.userName;
+                    final  quote = state.quote;
+                    final  images = state.image;
                       return Column(
                         children: [
+                          Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 55,
+                                backgroundImage:
+                                    (images == null || images!.isEmpty)
+                                    ? AssetImage(
+                                        'assets/images/image_avater.png',
+                                      )
+                                    : FileImage(File(images!)),
+                                backgroundColor: Colors.transparent,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: GestureDetector(
+                                  onTap: () async{
+                                    showDialogImage(context);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: context.textSurface,
+                                    child: Icon(
+                                      Icons.camera_alt_outlined,
+                                      color: context.textPrimary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          verticalSpace(10),
                           FittedBox(
                             child: Text(
-                             state.userName,
+                              state.userName,
                               style: AppTextStyle.regular(
                                 fontSize: 20,
                                 color: context.textPrimary,
@@ -85,8 +90,6 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
-
-
                 ],
               ),
             ),
@@ -105,11 +108,10 @@ class ProfileScreen extends StatelessWidget {
               title: 'User Details',
               trailing: Icon(Icons.arrow_forward_rounded),
               onTap: () {
-                context.pushNamed(Routers.userDetailsScreen,arguments: {
-                  'userName':userName,
-                  'quote':quote,
-                });
-
+                context.pushNamed(
+                  Routers.userDetailsScreen,
+                  arguments: {'userName': state.userName, 'quote': state.quote},
+                );
               },
             ),
 
@@ -120,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
               image: 'assets/svgs/logout_icon.svg',
               title: 'Log Out',
               trailing: Icon(Icons.arrow_forward_rounded),
-              onTap: () async{
+              onTap: () async {
                 context.read<UserDetailsCubit>().logout();
                 context.pushReplacementNamed(Routers.onBoardingScreen);
               },
@@ -130,4 +132,43 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future showDialogImage(BuildContext context) {
+ return showDialog(
+    context: context,
+    builder: (context) {
+      return SimpleDialog(
+        children: [
+          ListTile(
+            leading: Icon(Icons.photo),
+            title: Text('Gallery'),
+            onTap: () {
+              selectedImagesPicker(ImageSource.gallery,context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.photo_camera),
+            title: Text('Camera'),
+            onTap: () {
+              selectedImagesPicker(ImageSource.camera,context);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void selectedImagesPicker(ImageSource imageSource,BuildContext context) async {
+  XFile? pickedImage = await ImagePicker().pickImage(source: imageSource);
+  if(pickedImage !=null){
+    final appDir = await getApplicationDocumentsDirectory();
+    final newFile = await File(
+      pickedImage.path,
+    ).copy('${appDir.path}/${pickedImage.name}');
+    context.read<UserDetailsCubit>().uploadImage(newFile.path);
+  }
+
+  context.pop();
 }
