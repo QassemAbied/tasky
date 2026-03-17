@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/uitls/enum.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
+import 'package:tasky/feature/presentation/controller/home_cubit/home_controller.dart';
 import '../../feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/high_priority_widget.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/text_field_widget.dart';
 import '../helper/extension.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
-import '../../feature/presentation/controller/home_cubit/home_cubit.dart';
 
 class ItemOfLists extends StatelessWidget {
   const ItemOfLists({
     super.key,
 
-    this.isTrailing = true, required this.onChanged,  required this.taskEntities,
+    this.isTrailing = true,
+    required this.onChanged,
+    required this.taskEntities,
   });
   final TaskEntities taskEntities;
 
@@ -81,6 +83,7 @@ class ItemOfLists extends StatelessWidget {
     );
   }
   Future<void> _showDialog(BuildContext context){
+    final controller = context.read<HomeController>();
     return showDialog(context: context, builder: (context){
       final isDark = Theme.of(context).brightness == Brightness.dark;
       return AlertDialog(
@@ -95,7 +98,7 @@ class ItemOfLists extends StatelessWidget {
           TextButton(
 
             onPressed: (){
-              context.read<HomeCubit>().deleteTask(taskEntities.id);
+              controller.deleteTask(taskEntities.id);
               Navigator.pop(context);
             }, child: Text('Delete',style: AppTextStyle.semiBold(fontSize: 16, color: context.textPrimary),),),
 
@@ -104,6 +107,7 @@ class ItemOfLists extends StatelessWidget {
     });
   }
   Future<void> _showModelSheet(BuildContext context) async {
+    final controller = context.read<HomeController>();
     final TextEditingController nameTaskController =
     TextEditingController(text: taskEntities.taskName);
 
@@ -154,7 +158,7 @@ class ItemOfLists extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         if (key.currentState!.validate()) {
-                          context.read<HomeCubit>().editTask(TaskEntities(
+                          controller.editTask(TaskEntities(
                             id: taskEntities.id,
                               isDone: taskEntities.isDone,
                               taskName: nameTaskController.text,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
-import '../../feature/presentation/controller/home_cubit/home_cubit.dart';
+import 'package:tasky/feature/presentation/controller/home_cubit/home_controller.dart';
 import 'item_of_lists.dart';
 import '../helper/extension.dart';
 import '../helper/spacing.dart';
@@ -22,14 +23,13 @@ class MyTaskListWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Card(
                   child: ItemOfLists(
-
                     onChanged: (bool value) {
-                      context.read<HomeCubit>().toggleMyTask(
+                      context.read<HomeController>().toggleMyTask(
                         tasks[index],
                         value,
                       );
                     },
-                   taskEntities: tasks[index],
+                    taskEntities: tasks[index],
                   ),
                 );
               },

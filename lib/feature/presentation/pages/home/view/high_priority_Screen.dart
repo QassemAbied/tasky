@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky/feature/presentation/controller/home_cubit/home_controller.dart';
 import '../../../../../core/common_widgets/my_task_list_widget.dart';
 import '../../../../../core/helper/spacing.dart';
-import '../../../controller/home_cubit/home_cubit.dart';
-import '../../../controller/home_cubit/home_state.dart';
 
 class HighPriorityScreen extends StatelessWidget {
   const HighPriorityScreen({super.key});
@@ -15,31 +14,11 @@ class HighPriorityScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: verticalSpace(20)),
-          BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              final tasks = state.highPriorityTasks;
+          Consumer<HomeController>(builder: (BuildContext context, HomeController value, Widget? child) {
+            final controller= context.read<HomeController>().highPriorityTasks;
 
-              switch (state.highPriority) {
-                case HighPriority.loading:
-                  return SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-
-                case HighPriority.loaded:
-                  return MyTaskListWidget(tasks: tasks);
-
-                case HighPriority.error:
-                  return SliverToBoxAdapter(
-                    child: Center(
-                      child: Text(state.error ?? "Something went wrong"),
-                    ),
-                  );
-
-                case HighPriority.initial:
-                  return SliverToBoxAdapter(child: Center(child: SizedBox()));
-              }
-            },
-          ),
+            return  MyTaskListWidget(tasks:controller );
+          },),
         ],
       ),
     );
