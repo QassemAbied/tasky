@@ -10,13 +10,13 @@ import 'package:tasky/feature/domain/usecases/get_task_usecase.dart';
 import 'package:tasky/feature/domain/usecases/get_user_name_usecase.dart';
 import 'package:tasky/feature/domain/usecases/logout_usecase.dart';
 import 'package:tasky/feature/domain/usecases/upload_image_usecase.dart';
-import 'package:tasky/feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
-import 'package:tasky/feature/presentation/controller/home_cubit/home_controller.dart';
+import 'package:tasky/feature/presentation/controller/add_task_controller/add_task_provider.dart';
 import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
 import '../../feature/data/data_sources/task_local_data_source.dart';
 import '../../feature/data/data_sources/task_local_data_source_impl.dart';
 import '../../feature/data/repositories_impl/add_task_repos_impl.dart';
 import '../../feature/domain/usecases/add_task_usecase.dart';
+import '../../feature/presentation/controller/home_controller/home_provider.dart';
 
 final sl = GetIt.instance;
 
@@ -37,9 +37,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => GetImageUseCase(sl()));
   sl.registerLazySingleton(() => UploadImageUseCase(sl()));
-  sl.registerFactory(() => AddNewTaskCubit(sl()));
+  sl.registerFactory(() => AddTaskProvider(sl()));
 
   sl.registerLazySingleton(() => GetTaskUseCase(sl()));
-  sl.registerLazySingleton(() => HomeController(sl(),sl(),sl(), ),);
+  sl.registerLazySingleton(() => HomeProvider(sl(),sl(),sl(), ),);
   sl.registerLazySingleton(() => UserDetailsCubit(sl(), sl(),sl(), sl(),sl(),sl(),sl(),));
 }

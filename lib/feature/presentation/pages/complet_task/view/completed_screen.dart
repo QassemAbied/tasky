@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/common_widgets/my_task_list_widget.dart';
 import '../../../../../core/helper/spacing.dart';
-import '../../../controller/home_cubit/home_controller.dart';
+import '../../../controller/home_controller/home_provider.dart';
 
 class CompletedScreen extends StatelessWidget {
   const CompletedScreen({super.key});
@@ -14,8 +14,8 @@ class CompletedScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: verticalSpace(20),),
-          Consumer<HomeController>(builder: (BuildContext context, HomeController value, Widget? child) {
-            final controller= context.read<HomeController>().completedTask;
+          Consumer<HomeProvider>(builder: (BuildContext context, HomeProvider value, Widget? child) {
+            final controller= context.read<HomeProvider>().completedTask;
 
             return  MyTaskListWidget(tasks:controller );
           },),

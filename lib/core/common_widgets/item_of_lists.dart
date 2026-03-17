@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky/core/uitls/enum.dart';
 import 'package:tasky/feature/domain/entities/task_entities.dart';
-import 'package:tasky/feature/presentation/controller/home_cubit/home_controller.dart';
-import '../../feature/presentation/controller/add_task_cubit/add_new_task_cubit.dart';
+import 'package:tasky/feature/presentation/controller/add_task_controller/add_task_provider.dart';
+import '../../feature/presentation/controller/home_controller/home_provider.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/high_priority_widget.dart';
 import '../../feature/presentation/pages/add_task/view/widgets/text_field_widget.dart';
 import '../helper/extension.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
+import '../uitls/di.dart';
 
 class ItemOfLists extends StatelessWidget {
   const ItemOfLists({
@@ -83,7 +84,7 @@ class ItemOfLists extends StatelessWidget {
     );
   }
   Future<void> _showDialog(BuildContext context){
-    final controller = context.read<HomeController>();
+    final controller = context.read<HomeProvider>();
     return showDialog(context: context, builder: (context){
       final isDark = Theme.of(context).brightness == Brightness.dark;
       return AlertDialog(
@@ -107,75 +108,78 @@ class ItemOfLists extends StatelessWidget {
     });
   }
   Future<void> _showModelSheet(BuildContext context) async {
-    final controller = context.read<HomeController>();
+    final homeController = context.read<HomeProvider>();
+
     final TextEditingController nameTaskController =
     TextEditingController(text: taskEntities.taskName);
 
     final TextEditingController descriptionTaskController =
     TextEditingController(text: taskEntities.taskDescription);
-    final cubit = AddNewTaskCubit.get(context);
 
-    cubit.isSelected = taskEntities.highPriority;
     final GlobalKey<FormState> key = GlobalKey<FormState>();
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: SingleChildScrollView(
-            child: Form(
-              key: key,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Task Name',
-                    style: AppTextStyle.regular(
-                      fontSize: 16,
-                      color: context.textPrimary,
+      builder: (sheetContext) {
+        return ChangeNotifierProvider(
+          create: (_) => sl<AddTaskProvider>()
+            ..isSelected = taskEntities.highPriority,
+          child: Builder(
+            builder: (innerContext) {
+              final provider = innerContext.watch<AddTaskProvider>();
+
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: MediaQuery.of(innerContext).viewInsets.bottom,
+                ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: key,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFieldWidget(
+                          nameTaskController: nameTaskController,
+                          descriptionTaskController:
+                          descriptionTaskController,
+                        ),
+
+                        HighPriorityWidget(),
+
+                        const SizedBox(height: 20),
+
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              if (key.currentState!.validate()) {
+                                homeController.editTask(
+                                  TaskEntities(
+                                    id: taskEntities.id,
+                                    isDone: taskEntities.isDone,
+                                    taskName: nameTaskController.text,
+                                    taskDescription:
+                                    descriptionTaskController.text,
+                                    highPriority: provider.isSelected,
+                                  ),
+                                );
+                              }
+                              Navigator.pop(innerContext);
+                            },
+                            icon: const Icon(Icons.edit),
+                            label: const Text('Edit'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
-                  TextFieldWidget(
-                    nameTaskController: nameTaskController,
-                    descriptionTaskController: descriptionTaskController,
-                  ),
-
-                  HighPriorityWidget(),
-
-                  const SizedBox(height: 20),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        if (key.currentState!.validate()) {
-                          controller.editTask(TaskEntities(
-                            id: taskEntities.id,
-                              isDone: taskEntities.isDone,
-                              taskName: nameTaskController.text,
-                              taskDescription: descriptionTaskController.text,
-                              highPriority: cubit.isSelected,
-                          ));
-                        }
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.edit),
-                      label: const Text('Edit'),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },

@@ -4,11 +4,11 @@ import '../../../domain/usecases/delete_task_usecase.dart';
 import '../../../domain/usecases/edit_task_usecase.dart';
 import '../../../domain/usecases/get_task_usecase.dart';
 
-class HomeController with ChangeNotifier {
+class HomeProvider with ChangeNotifier {
   final GetTaskUseCase getTasksUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
   final EditTaskUseCase _editTaskUseCase;
-  HomeController(
+  HomeProvider(
     this.getTasksUseCase,
    this._deleteTaskUseCase,
     this._editTaskUseCase,

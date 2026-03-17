@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, state) {
         final isOnBoard=isOnBoarding();
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Tasky',
           theme: AppTheme.light(),
           darkTheme: AppTheme.dark(),

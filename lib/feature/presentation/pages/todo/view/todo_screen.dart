@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky/core/helper/spacing.dart';
 import '../../../../../core/common_widgets/my_task_list_widget.dart';
-import '../../../controller/home_cubit/home_controller.dart';
+import '../../../controller/home_controller/home_provider.dart';
 
 class TodoScreen extends StatelessWidget {
   const TodoScreen({super.key});
@@ -14,7 +14,7 @@ class TodoScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: verticalSpace(20),),
-          Consumer<HomeController>(builder: (BuildContext context, HomeController value, Widget? child) {
+          Consumer<HomeProvider>(builder: (BuildContext context, HomeProvider value, Widget? child) {
             final controller= value.todoTask;
 
             return  MyTaskListWidget(tasks:controller );

@@ -5,17 +5,17 @@ import 'package:tasky/core/routing/routers.dart';
 import '../../../../../../core/helper/extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_text_style.dart';
-import '../../../../controller/home_cubit/home_controller.dart';
 import '../../../../../../core/common_widgets/item_of_lists.dart';
+import '../../../../controller/home_controller/home_provider.dart';
 
 class HighPriorityList extends StatelessWidget {
   const HighPriorityList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeController>(
-      builder: (BuildContext context, HomeController value, Widget? child) {
-        final controller= context.read<HomeController>().highPriorityTasks;
+    return Consumer<HomeProvider>(
+      builder: (BuildContext context, HomeProvider value, Widget? child) {
+        final controller= context.read<HomeProvider>().highPriorityTasks;
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -43,7 +43,7 @@ class HighPriorityList extends StatelessWidget {
 
                             isTrailing: false,
                             onChanged: (bool value) {
-                              context.read<HomeController>().toggleMyTask(
+                              context.read<HomeProvider>().toggleMyTask(
                                   controller[index], value);
                             }, taskEntities: controller[index],
                           );
