@@ -58,13 +58,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
     return SharedPrefHelper.getString(key: AppConstants.quoteKey);
   }
 
-  @override
-  Future<dynamic> logOut() async {
-    await SharedPrefHelper.removeData(AppConstants.addTaskKey);
-    await SharedPrefHelper.removeData(AppConstants.onBoardingKey);
-    await SharedPrefHelper.removeData(AppConstants.quoteKey);
-    await SharedPrefHelper.removeData(AppConstants.userNameKey);
-  }
+
 
   @override
   Future<dynamic> deleteTask(String id) async {
@@ -111,5 +105,14 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   @override
   Future<dynamic> uploadImage(String image) async{
     return await SharedPrefHelper.setData(key: AppConstants.imageUser, value: image);
+  }
+
+  @override
+  Future<dynamic> logOut() async {
+    await SharedPrefHelper.removeData(AppConstants.addTaskKey);
+    await SharedPrefHelper.removeData(AppConstants.onBoardingKey);
+    await SharedPrefHelper.removeData(AppConstants.quoteKey);
+    await SharedPrefHelper.removeData(AppConstants.userNameKey);
+    await SharedPrefHelper.removeData(AppConstants.imageUser);
   }
 }

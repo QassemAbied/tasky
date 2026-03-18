@@ -11,7 +11,7 @@ import 'package:tasky/feature/domain/usecases/get_user_name_usecase.dart';
 import 'package:tasky/feature/domain/usecases/logout_usecase.dart';
 import 'package:tasky/feature/domain/usecases/upload_image_usecase.dart';
 import 'package:tasky/feature/presentation/controller/add_task_controller/add_task_provider.dart';
-import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
+import 'package:tasky/feature/presentation/controller/user_details_controller/user_details_provider.dart';
 import '../../feature/data/data_sources/task_local_data_source.dart';
 import '../../feature/data/data_sources/task_local_data_source_impl.dart';
 import '../../feature/data/repositories_impl/add_task_repos_impl.dart';
@@ -41,5 +41,5 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => GetTaskUseCase(sl()));
   sl.registerLazySingleton(() => HomeProvider(sl(),sl(),sl(), ),);
-  sl.registerLazySingleton(() => UserDetailsCubit(sl(), sl(),sl(), sl(),sl(),sl(),sl(),));
+  sl.registerLazySingleton(() => UserDetailsProvider(sl(), sl(),sl(), sl(),sl(),sl(),sl(),));
 }

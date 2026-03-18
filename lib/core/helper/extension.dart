@@ -32,7 +32,13 @@ extension Navigation on BuildContext {
       this,
     ).pushReplacementNamed(routeName, arguments: arguments);
   }
-
+  void pushNamedAndRemoveUntil(String routeName, {Object? arguments}) {
+    Navigator.of(this).pushNamedAndRemoveUntil(
+      routeName,
+          (route) => false,
+      arguments: arguments,
+    );
+  }
   void pop() {
     if (Navigator.of(this).canPop()) {
       Navigator.of(this).pop();

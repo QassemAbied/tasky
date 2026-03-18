@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
-import 'package:tasky/feature/presentation/controller/user_details/user_details_state.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky/feature/presentation/controller/user_details_controller/user_details_provider.dart';
 import '../../../../../core/common_widgets/dismiss_keyboard_widget.dart';
 import '../../../../../core/common_widgets/text_field.dart';
 import '../../../../../core/helper/extension.dart';
@@ -77,7 +77,7 @@ late final  TextEditingController motivationController;
                       controller: motivationController,
                       minLines: 8,
                       maxLines: 12,
-      
+
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
                           return 'Please Enter Your Motivation Quote';
@@ -91,7 +91,7 @@ late final  TextEditingController motivationController;
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.read<UserDetailsCubit>().addUserDetails(
+                          context.read<UserDetailsProvider>().addUserDetails(
                             nameUserController.text,
                             motivationController.text,
                           );

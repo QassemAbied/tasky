@@ -1,15 +1,15 @@
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import '../../../../../../core/helper/extension.dart';
 import '../../../../../../core/helper/spacing.dart';
 import '../../../../../../core/theme/app_text_style.dart';
 import '../../../../../../core/theme/theme_controller/theme_cubit.dart';
 import '../../../../../../core/uitls/enum.dart';
-import '../../../../controller/user_details/user_details_cubit.dart';
-import '../../../../controller/user_details/user_details_state.dart';
+import '../../../../controller/user_details_controller/user_details_provider.dart';
 
 class CustomAppBarWidget extends StatelessWidget {
   const CustomAppBarWidget({super.key});
@@ -18,31 +18,22 @@ class CustomAppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var currentMode = Theme.of(context).brightness == Brightness.dark;
 
-    return BlocBuilder<UserDetailsCubit, UserDetailsState>(
-      
-      builder: (context, state) {
-        final images= state.image;
+    return Consumer<UserDetailsProvider>(
+      builder: (BuildContext context, UserDetailsProvider value, Widget? child) {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
               radius: 30,
               backgroundImage:
-              ( images.isEmpty)
+              ( value.image==null)
                   ? AssetImage(
                 'assets/images/image_avater.png',
               )
-                  : FileImage(File(images)),
+                  : FileImage(File(value.image!)),
               backgroundColor: Colors.transparent,
             ),
-            // CircleAvatar(
-            //   radius: 30,
-            //   child: Image(
-            //     image: (image ==null|| image.isEmpty)?AssetImage('assets/images/image_avater.png'):FileImage(File(image)),
-            //     // width: 50,
-            //     // height: 50,
-            //   ),
-            // ),
+
             horizontalSpace(16),
             Expanded(
               //flex:5,
@@ -52,7 +43,7 @@ class CustomAppBarWidget extends StatelessWidget {
                   FittedBox(
                     //fit:BoxFit.scaleDown,
                     child: Text(
-                      'Good Evening , ${state.userName} ',
+                      'Good Evening , ${value.name} ',
                       style: AppTextStyle.regular(
                         fontSize: 16,
                         color: context.textPrimary,
@@ -60,7 +51,7 @@ class CustomAppBarWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    state.quote,
+                    value.quote??'',
                     style: AppTextStyle.regular(
                       fontSize: 14,
                       color: context.textSecondary,
@@ -91,7 +82,5 @@ class CustomAppBarWidget extends StatelessWidget {
             ),
           ],
         );
-      },
-    );
-  }
+      },);}
 }

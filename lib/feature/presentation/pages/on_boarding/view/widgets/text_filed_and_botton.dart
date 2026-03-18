@@ -4,10 +4,11 @@ import 'package:tasky/core/constants/app_constants.dart';
 import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
-import 'package:tasky/feature/presentation/controller/user_details/user_details_cubit.dart';
-import 'package:tasky/feature/presentation/pages/main_screen.dart';
 import '../../../../../../core/common_widgets/text_field.dart';
+import '../../../../../../core/helper/extension.dart';
 import '../../../../../../core/helper/spacing.dart';
+import '../../../../../../core/routing/routers.dart';
+import '../../../../controller/user_details_controller/user_details_provider.dart';
 
 
 class TextFiledAndBotton extends StatefulWidget {
@@ -52,10 +53,9 @@ class _TextFiledAndBottonState extends State<TextFiledAndBotton> {
             child: ElevatedButton(
               onPressed: () async{
                 if (formKey.currentState?.validate()??false) {
-                  context.read<UserDetailsCubit>().addUserDetails(controller.text,'One task at a time.One step\n closer.');
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return MainScreen();
-                  }));
+                  context.read<UserDetailsProvider>().addUserDetails(controller.text,'One task at a time.One step\n closer.');
+
+                  context.pushNamedAndRemoveUntil(Routers.mainScreen);
                   await SharedPrefHelper.setData(
                       key: AppConstants.onBoardingKey, value: true);
                 }else{
