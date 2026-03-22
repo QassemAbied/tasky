@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tasky/core/theme/theme_controller/theme_provider.dart';
 import '../../../../../../core/helper/extension.dart';
 import '../../../../../../core/helper/spacing.dart';
 import '../../../../../../core/theme/app_text_style.dart';
-import '../../../../../../core/theme/theme_controller/theme_cubit.dart';
 import '../../../../../../core/uitls/enum.dart';
 import '../../../../controller/user_details_controller/user_details_provider.dart';
 
@@ -64,11 +64,11 @@ class CustomAppBarWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 if (currentMode) {
-                  context.read<ThemeCubit>().selectedThemeMode(
+                  context.read<ThemeProvider>().selectedThemeMode(
                     ThemeModeEnum.light,
                   );
                 } else {
-                  context.read<ThemeCubit>().selectedThemeMode(
+                  context.read<ThemeProvider>().selectedThemeMode(
                     ThemeModeEnum.dark,
                   );
                 }

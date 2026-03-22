@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky/feature/presentation/controller/user_details_controller/user_details_provider.dart';
 import '../../../../../core/common_widgets/dismiss_keyboard_widget.dart';

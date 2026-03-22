@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../core/theme/theme_controller/theme_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky/core/theme/theme_controller/theme_provider.dart';
 import '../../../../../../core/uitls/enum.dart';
 import 'build_list_title.dart';
 
@@ -21,7 +20,7 @@ class BuildChangeThemeListTitle extends StatelessWidget {
       trailing: Switch(
         value: isDark,
         onChanged: (value) {
-          context.read<ThemeCubit>().selectedThemeMode(
+          context.read<ThemeProvider>().selectedThemeMode(
             value ? ThemeModeEnum.dark : ThemeModeEnum.light,
           );
         },
