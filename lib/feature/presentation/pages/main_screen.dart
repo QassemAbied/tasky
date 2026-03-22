@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:tasky/core/helper/extension.dart';
 import 'package:tasky/core/theme/app_colors.dart';
-import 'package:tasky/feature/presentation/controller/main_cubit/main_cubit.dart';
-import 'package:tasky/feature/presentation/controller/main_cubit/main_state.dart';
+import 'package:tasky/feature/presentation/controller/main_controller/main_provider.dart';
 import 'package:tasky/feature/presentation/pages/complet_task/view/completed_screen.dart';
 import 'package:tasky/feature/presentation/pages/home/view/home_screen.dart';
 import 'package:tasky/feature/presentation/pages/profile/view/profile_screen.dart';
@@ -24,35 +23,34 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainCubit, MainState>(
-      builder: (context, state) {
-        final _cubit=MainCubit.get(context);
-       currentIndex= _cubit.currentIndex;
+    return Consumer<MainProvider>(
+      builder: (BuildContext context, MainProvider value, Widget? child) {
+        currentIndex= value.currentIndex;
         return Scaffold(
-          body: screens[_cubit.currentIndex],
+          body: screens[value.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.shifting,
             selectedItemColor: AppColors.primaryColor,
             unselectedItemColor: context.textSecondary,
             showUnselectedLabels: true,
-            currentIndex: _cubit.currentIndex,
+            currentIndex: value.currentIndex,
             onTap: (vale) {
-             _cubit.changeBottomNavBar(vale);
+              context.read<MainProvider>().changeBottomNavBar(vale);
             },
             items: [
 
               BottomNavigationBarItem(
 
                 icon: buildSvgColor(
-                    image: 'assets/svgs/home_icon.svg', index: 0,
-                    context: context,
+                  image: 'assets/svgs/home_icon.svg', index: 0,
+                  context: context,
 
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: buildSvgColor(
-                    image: 'assets/svgs/todo_icon.svg', index: 1,
+                  image: 'assets/svgs/todo_icon.svg', index: 1,
                   context: context,
                 ),
                 label: 'Todo',
@@ -77,9 +75,9 @@ class MainScreen extends StatelessWidget {
             ],
           ),
         );
+      },);
 
-      },
-    );
+
 
   }
   Widget buildSvgColor({required String image, required int index, required BuildContext context}) {
