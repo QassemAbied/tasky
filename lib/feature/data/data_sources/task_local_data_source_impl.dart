@@ -1,118 +1,70 @@
-import 'dart:convert';
 
+
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:tasky/core/constants/app_constants.dart';
-import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/feature/data/data_sources/task_local_data_source.dart';
 import 'package:tasky/feature/data/model/task_model.dart';
 
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
+  final Box<TaskModel> taskBox = Hive.box<TaskModel>(AppConstants.noteCollection);
+
   @override
   Future<TaskModel> addTask(TaskModel task) async {
-    final getTask = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
-    List listTask = [];
-    if (getTask != null) {
-      listTask = jsonDecode(getTask);
-    }
-    listTask.add(task.toJson());
-    final taskEncode = jsonEncode(listTask);
-    await SharedPrefHelper.setData(
-      key: AppConstants.addTaskKey,
-      value: taskEncode,
-    );
+    await taskBox.put(task.id, task);
     return task;
   }
 
   @override
   Future<List<TaskModel>> getTask() async {
-    final getTasks = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
-    if (getTasks != null) {
-      final taskDecode = jsonDecode(getTasks);
-      return taskDecode.map<TaskModel>((e) => TaskModel.fromJson(e)).toList();
-    }
-    return [];
+    return taskBox.values.toList();
   }
 
   @override
-  String? getUserName() {
-    return SharedPrefHelper.getString(key: AppConstants.userNameKey);
-  }
-
-  @override
-  Future addUserName(String userName) async {
-    return await SharedPrefHelper.setData(
-      key: AppConstants.userNameKey,
-      value: userName,
-    );
-  }
-
-  @override
-  Future<dynamic> addQuoteUser(String quote) async {
-    return await SharedPrefHelper.setData(
-      key: AppConstants.quoteKey,
-      value: quote,
-    );
-  }
-
-  @override
-  String? getQuoteUser() {
-    return SharedPrefHelper.getString(key: AppConstants.quoteKey);
-  }
-
-
-
-  @override
-  Future<dynamic> deleteTask(String id) async {
-    final getTasks = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
-
-    if (getTasks == null) return;
-
-    List tasks = jsonDecode(getTasks);
-
-    tasks.removeWhere((task) => task['id'].toString() == id.toString());
-    await SharedPrefHelper.setData(
-      key: AppConstants.addTaskKey,
-      value: jsonEncode(tasks),
-    );
+  Future deleteTask(String id) async {
+    await taskBox.delete(id);
   }
 
   @override
   Future<void> editTask(TaskModel task) async {
-    final getTasks = SharedPrefHelper.getString(key: AppConstants.addTaskKey);
+    await taskBox.put(task.id, task);
+  }
 
-    List<dynamic> tasks = [];
 
-    if (getTasks != null) {
-      tasks = jsonDecode(getTasks);
-    }
-    final index = tasks.indexWhere(
-      (e) => e['id'].toString() == task.id.toString(),
-    );
-    if (index != -1) {
-      tasks[index] = task.toJson();
-    }
+  final Box userBox = Hive.box(AppConstants.userBox);
 
-    await SharedPrefHelper.setData(
-      key: AppConstants.addTaskKey,
-      value: jsonEncode(tasks),
-    );
+  @override
+  String? getUserName() {
+    return userBox.get(AppConstants.userNameKey);
   }
 
   @override
-  Future<dynamic> getImage() async {
-  return  SharedPrefHelper.getString(key: AppConstants.imageUser);
+  Future addUserName(String userName) async {
+    await userBox.put(AppConstants.userNameKey, userName);
   }
 
   @override
-  Future<dynamic> uploadImage(String image) async{
-    return await SharedPrefHelper.setData(key: AppConstants.imageUser, value: image);
+  Future addQuoteUser(String quote) async {
+    await userBox.put(AppConstants.quoteKey, quote);
   }
 
   @override
-  Future<dynamic> logOut() async {
-    await SharedPrefHelper.removeData(AppConstants.addTaskKey);
-    await SharedPrefHelper.removeData(AppConstants.onBoardingKey);
-    await SharedPrefHelper.removeData(AppConstants.quoteKey);
-    await SharedPrefHelper.removeData(AppConstants.userNameKey);
-    await SharedPrefHelper.removeData(AppConstants.imageUser);
+  String? getQuoteUser() {
+    return userBox.get(AppConstants.quoteKey);
+  }
+
+  @override
+  Future getImage() async {
+    return userBox.get(AppConstants.imageUser);
+  }
+
+  @override
+  Future uploadImage(String image) async {
+    await userBox.put(AppConstants.imageUser, image);
+  }
+
+  @override
+  Future logOut() async {
+    await taskBox.clear();
+    await userBox.clear();
   }
 }
