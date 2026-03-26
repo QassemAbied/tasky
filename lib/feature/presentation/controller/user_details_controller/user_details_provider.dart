@@ -62,6 +62,7 @@ class UserDetailsProvider with ChangeNotifier {
     await SharedPrefHelper.setData(
         key: AppConstants.onBoardingKey, value: false);
 
+    image=null;
     notifyListeners();
   }
 }
