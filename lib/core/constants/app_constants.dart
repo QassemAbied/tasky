@@ -9,4 +9,6 @@ class AppConstants {
 
   static const String noteCollection = 'noteCollection';
   static const String userBox = 'userBox';
+  static const String themeBox = 'themeBox';
+  static const String onBoardingBox = 'onBoardingBox';
 }
