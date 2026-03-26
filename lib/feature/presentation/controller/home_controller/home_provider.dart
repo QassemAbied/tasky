@@ -69,6 +69,13 @@ class HomeProvider with ChangeNotifier {
       await loadData();
 
   }
-
+  void clearData() {
+    taskList.clear();
+    highPriorityTasks.clear();
+    noHighPriorityTasks.clear();
+    todoTask.clear();
+    completedTask.clear();
+    notifyListeners();
+  }
 
 }
