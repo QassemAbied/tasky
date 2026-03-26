@@ -9,6 +9,7 @@ import 'package:tasky/core/routing/routers.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
 import 'package:tasky/feature/presentation/pages/profile/view/widget/build_list_title.dart';
 import 'package:tasky/feature/presentation/pages/profile/view/widget/bulid_change_theme_list_title.dart';
+import '../../../controller/home_controller/home_provider.dart';
 import '../../../controller/user_details_controller/user_details_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -119,6 +120,7 @@ class ProfileScreen extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward_rounded),
               onTap: () async {
                 context.read<UserDetailsProvider>().logout();
+                context.read<HomeProvider>().clearData();
                 context.pushNamedAndRemoveUntil(Routers.onBoardingScreen);
               },
             ),
