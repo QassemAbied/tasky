@@ -6,7 +6,6 @@ import 'package:tasky/core/theme/theme_controller/theme_provider.dart';
 import 'package:tasky/feature/data/model/task_model.dart';
 import 'package:tasky/feature/presentation/controller/main_controller/main_provider.dart';
 import 'package:tasky/feature/presentation/controller/user_details_controller/user_details_provider.dart';
-import 'core/helper/shared_pref.dart';
 import 'core/uitls/di.dart';
 import 'feature/presentation/controller/home_controller/home_provider.dart';
 import 'hive_registrar.g.dart';
@@ -18,8 +17,10 @@ void main() async {
   Hive.registerAdapters();
  await Hive.openBox<TaskModel>(AppConstants.noteCollection);
   await Hive.openBox(AppConstants.userBox);
+  await Hive.openBox(AppConstants.themeBox);
+  await Hive.openBox(AppConstants.onBoardingBox);
   await init();
-  await SharedPrefHelper.init();
+
 
   runApp(
 
