@@ -6,4 +6,7 @@ class AppConstants {
   static const String onBoardingKey = 'onBoarding';
   static const String addTaskKey = 'addTask';
   static const String imageUser = 'imageUser';
+
+  static const String noteCollection = 'noteCollection';
+  static const String userBox = 'userBox';
 }
