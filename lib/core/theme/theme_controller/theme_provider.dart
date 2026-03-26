@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:hive_ce_flutter/adapters.dart';
 import '../../constants/app_constants.dart';
-import '../../helper/shared_pref.dart';
 import '../../uitls/enum.dart';
 
 class ThemeProvider with ChangeNotifier{
-  // void changeNotifier(){
-  //   saveThemeData();
-  //   notifyListeners();
-  // }
+
+
+  final Box themeBox= Hive.box(AppConstants.themeBox);
   ThemeModeEnum currentTheme = ThemeModeEnum.system;
   Future selectedThemeMode(ThemeModeEnum mode) async {
     currentTheme = mode;
-    await SharedPrefHelper.setData(
-      key: AppConstants.themeModeKey,
-      value: mode.name,
-    );
+
+  await  themeBox.put(AppConstants.themeModeKey, mode.name, );
    notifyListeners();
   }
 
@@ -31,9 +27,9 @@ class ThemeProvider with ChangeNotifier{
   }
 
   void saveThemeData() {
-    final saveThemeMode = SharedPrefHelper.getString(
-      key: AppConstants.themeModeKey,
-    );
+    final saveThemeMode = themeBox.get(AppConstants.themeModeKey);
+
+
     if (saveThemeMode != null) {
       currentTheme = ThemeModeEnum.values.firstWhere(
             (e) => e.name == saveThemeMode,

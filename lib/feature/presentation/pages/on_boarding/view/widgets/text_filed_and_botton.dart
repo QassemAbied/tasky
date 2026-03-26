@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky/core/constants/app_constants.dart';
-import 'package:tasky/core/helper/shared_pref.dart';
 import 'package:tasky/core/theme/app_colors.dart';
 import 'package:tasky/core/theme/app_text_style.dart';
 import '../../../../../../core/common_widgets/text_field.dart';
@@ -56,8 +56,9 @@ class _TextFiledAndBottonState extends State<TextFiledAndBotton> {
                   context.read<UserDetailsProvider>().addUserDetails(controller.text,'One task at a time.One step\n closer.');
 
                   context.pushNamedAndRemoveUntil(Routers.mainScreen);
-                  await SharedPrefHelper.setData(
-                      key: AppConstants.onBoardingKey, value: true);
+                  await Hive.box(AppConstants.onBoardingBox).
+                  put(AppConstants.onBoardingKey, true);
+
                 }else{
                   snackBar();
                 }

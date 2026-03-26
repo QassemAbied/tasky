@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:tasky/core/theme/theme_controller/theme_provider.dart';
 import 'core/constants/app_constants.dart';
-import 'core/helper/shared_pref.dart';
 import 'core/routing/router_app.dart';
 import 'core/routing/routers.dart';
 import 'core/theme/app_theme.dart';
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
 
   }
    bool? isOnBoarding(){
-    return SharedPrefHelper.getBool(key: AppConstants.onBoardingKey);
+
+    return Hive.box(AppConstants.onBoardingBox).get( AppConstants.onBoardingKey);
   }
 }

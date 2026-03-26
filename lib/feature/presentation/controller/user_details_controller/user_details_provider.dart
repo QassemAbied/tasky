@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/helper/shared_pref.dart';
 import '../../../domain/usecases/add_quote_usecase.dart';
 import '../../../domain/usecases/add_user_name_use_case.dart';
 import '../../../domain/usecases/get_image_usecase.dart';
@@ -59,8 +57,7 @@ class UserDetailsProvider with ChangeNotifier {
 
   Future logout() async {
     await logoutUseCase();
-    await SharedPrefHelper.setData(
-        key: AppConstants.onBoardingKey, value: false);
+
 
     image=null;
     notifyListeners();
