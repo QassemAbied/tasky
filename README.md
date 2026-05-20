@@ -210,3 +210,53 @@ flutter run
 
 ## 🏠 Home Screen
 
+<img src="assets/screenshots/home.png" width="250"/>
+
+---
+
+## ✅ Todo Tasks
+
+<img src="assets/screenshots/todo.png" width="250"/>
+
+---
+
+## ➕ Add Task
+
+<img src="assets/screenshots/add_task.png" width="250"/>
+
+---
+
+## 🌙 Dark Mode
+
+<img src="assets/screenshots/dark_mode.png" width="250"/>
+
+---
+
+# 🎯 Key Features
+
+✔ Clean Architecture
+✔ Responsive UI
+✔ Offline Storage
+✔ Local Database
+✔ State Management
+✔ Dark & Light Theme
+✔ Scalable Structure
+
+---
+
+# 🌿 Branches
+
+The repository contains multiple branches demonstrating different implementations:
+
+* `main` → Shared Preferences + Cubit
+* `hive` → Hive + Cubit
+* `provider` → Hive + Provider
+
+---
+
+# 👨‍💻 Developer
+
+Built with ❤️ using Flutter & Clean Architecture.
+
+```
+
