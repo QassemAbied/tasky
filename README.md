@@ -212,7 +212,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot_shots/home.png" width="250"/> | <img src="assets/screenshot_shots/home_black.png" width="250"/> |
+| <img src="assets/screenshot/home.png" width="250"/> | <img src="assets/screenshot/home_black.png" width="250"/> |
 
 ---
 
@@ -220,7 +220,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot_shots/todo.png" width="250"/> | <img src="assets/screenshot_shots/todo_black.png" width="250"/> |
+| <img src="assets/screenshot/todo.png" width="250"/> | <img src="assets/screenshot/todo_black.png" width="250"/> |
 
 ---
 
@@ -228,7 +228,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot_shots/completed.png" width="250"/> | <img src="assets/screenshot_shots/completed_black.png" width="250"/> |
+| <img src="assets/screenshot/completed.png" width="250"/> | <img src="assets/screenshot/completed_black.png" width="250"/> |
 
 ---
 
@@ -236,7 +236,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot_shots/add_task.png" width="250"/> | <img src="assets/screenshot_shots/add_task_black.png" width="250"/> |
+| <img src="assets/screenshot/add_task.png" width="250"/> | <img src="assets/screenshot/add_task_black.png" width="250"/> |
 
 ---
 
@@ -244,7 +244,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot_shots/profile.png" width="250"/> | <img src="assets/screenshot_shots/profile_black.png" width="250"/> |
+| <img src="assets/screenshot/profile.png" width="250"/> | <img src="assets/screenshot/profile_black.png" width="250"/> |
 
 ---
 ```
