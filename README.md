@@ -208,27 +208,47 @@ flutter run
 
 # 📸 App Screens
 
-## 🏠 Home Screen
+## 🏠 Home Screens
 
-<img src="assets/screenshots/home.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot_shots/home.png" width="250"/> | <img src="assets/screenshot_shots/home_black.png" width="250"/> |
 
 ---
 
 ## ✅ Todo Tasks
 
-<img src="assets/screenshots/todo.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot_shots/todo.png" width="250"/> | <img src="assets/screenshot_shots/todo_black.png" width="250"/> |
+
+---
+
+## ✔ Completed Tasks
+
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot_shots/completed.png" width="250"/> | <img src="assets/screenshot_shots/completed_black.png" width="250"/> |
 
 ---
 
 ## ➕ Add Task
 
-<img src="assets/screenshots/add_task.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot_shots/add_task.png" width="250"/> | <img src="assets/screenshot_shots/add_task_black.png" width="250"/> |
 
 ---
 
-## 🌙 Dark Mode
+## 👤 Profile
 
-<img src="assets/screenshots/dark_mode.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot_shots/profile.png" width="250"/> | <img src="assets/screenshot_shots/profile_black.png" width="250"/> |
+
+---
+```
+
 
 ---
 
