@@ -220,7 +220,7 @@ flutter run
 
 | Light Mode | Dark Mode |
 |------------|------------|
-| <img src="assets/screenshot/todo.png" width="250"/> | <img src="assets/screenshot/todo_black.png" width="250"/> |
+| <img src="assets/screenshot/todo.png" width="250"/> | <img src="assets/screenshot/tobo_black.png" width="250"/> |
 
 ---
 
