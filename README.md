@@ -16,7 +16,7 @@ Modern Flutter Task Management Application built with Clean Architecture, Local 
 ✅ Local Data Persistence  
 ✅ Responsive UI  
 ✅ Profile Section  
-✅ OnBoarding Screens
+✅ OnBoarding Screens  
 
 ---
 
@@ -208,27 +208,47 @@ flutter run
 
 # 📸 App Screens
 
-## 🏠 Home Screen
+## 🏠 Home Screens
 
-<img src="assets/screenshots/home.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot/home.png" width="250"/> | <img src="assets/screenshot/home_black.png" width="250"/> |
 
 ---
 
 ## ✅ Todo Tasks
 
-<img src="assets/screenshots/todo.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot/todo.png" width="250"/> | <img src="assets/screenshot/tobo_black.png" width="250"/> |
+
+---
+
+## ✔ Completed Tasks
+
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot/completed.png" width="250"/> | <img src="assets/screenshot/completed_black.png" width="250"/> |
 
 ---
 
 ## ➕ Add Task
 
-<img src="assets/screenshots/add_task.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot/add_task.png" width="250"/> | <img src="assets/screenshot/add_task_black.png" width="250"/> |
 
 ---
 
-## 🌙 Dark Mode
+## 👤 Profile
 
-<img src="assets/screenshots/dark_mode.png" width="250"/>
+| Light Mode | Dark Mode |
+|------------|------------|
+| <img src="assets/screenshot/profile.png" width="250"/> | <img src="assets/screenshot/profile_black.png" width="250"/> |
+
+---
+```
+
 
 ---
 
